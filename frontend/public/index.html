@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Todo App</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    window.SUPABASE_URL = '';
+    window.SUPABASE_ANON_KEY = '';
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <div class="hero-text">
+        <h1>Todo</h1>
+        <p class="subtitle">Organize your day beautifully</p>
+      </div>
+      <img class="hero-image" src="assets/todo-hero.svg" alt="Todo illustration">
+    </div>
+    <div id="auth">
+      <div id="auth-status" class="hidden">
+        <span id="user-email"></span>
+        <button id="logout-btn">Logout</button>
+      </div>
+      <div class="auth-card">
+        <h2 id="auth-title">Login</h2>
+        <form id="login-form" class="stack">
+          <input id="login-email" type="email" placeholder="Email" autocomplete="email" required>
+          <input id="login-password" type="password" placeholder="Password" autocomplete="current-password" required minlength="6">
+          <button type="submit" class="btn primary">Login</button>
+        </form>
+        <div class="auth-switch">
+          <span>Don't have an account?</span>
+          <button id="show-register-btn" type="button" class="link-btn">Create account</button>
+        </div>
+        <form id="register-form" class="stack hidden">
+          <input id="register-email" type="email" placeholder="Email" autocomplete="email" required>
+          <input id="register-password" type="password" placeholder="Password (min 6 chars)" autocomplete="new-password" required minlength="6">
+          <button type="submit" class="btn primary">Register</button>
+          <button id="show-login-btn" type="button" class="btn secondary">Back to login</button>
+        </form>
+        <div id="auth-error"></div>
+      </div>
+    </div>
+    <div id="todo-section" class="hidden">
+      <form id="todo-form">
+        <input id="todo-input" type="text" placeholder="Add a todo" autocomplete="off">
+        <button type="submit">Add</button>
+      </form>
+      <ul id="todo-list"></ul>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
