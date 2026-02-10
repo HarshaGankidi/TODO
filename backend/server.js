@@ -65,7 +65,8 @@ function hashPassword(password, salt) {
 }
 
 const app = express()
-app.use(cors({ origin: true, credentials: true }))
+const FRONTEND_URL = process.env.FRONTEND_URL
+app.use(cors({ origin: FRONTEND_URL ? FRONTEND_URL : true, credentials: true }))
 app.use(express.json())
 
 app.post('/api/auth/register', async (req, res) => {

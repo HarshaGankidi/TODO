@@ -16,7 +16,7 @@ const showRegisterBtn = document.getElementById('show-register-btn')
 const showLoginBtn = document.getElementById('show-login-btn')
 const authTitleEl = document.getElementById('auth-title')
 
-const API_BASE = 'http://localhost:3000'
+const API_BASE = window.BACKEND_URL || 'http://localhost:3000'
 let currentUser = null
 let authMode = 'login'
 
