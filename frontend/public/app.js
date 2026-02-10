@@ -186,6 +186,16 @@ async function loadEnv() {
       if (m && m[1]) {
         API_BASE = m[1].trim()
       }
+      return
+    }
+  } catch {}
+  try {
+    const resJson = await fetch('./env.json', { cache: 'no-store' })
+    if (resJson.ok) {
+      const cfg = await resJson.json().catch(() => null)
+      if (cfg && typeof cfg.BACKEND_URL === 'string' && cfg.BACKEND_URL) {
+        API_BASE = cfg.BACKEND_URL.trim()
+      }
     }
   } catch {}
 }
