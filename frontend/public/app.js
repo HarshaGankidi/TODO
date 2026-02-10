@@ -186,18 +186,12 @@ async function loadEnv() {
       if (m && m[1]) {
         API_BASE = m[1].trim()
       }
-      return
+    } else {
+      console.warn('Failed to load .env file. Ensure it exists in the public directory.')
     }
-  } catch {}
-  try {
-    const resJson = await fetch('./env.json', { cache: 'no-store' })
-    if (resJson.ok) {
-      const cfg = await resJson.json().catch(() => null)
-      if (cfg && typeof cfg.BACKEND_URL === 'string' && cfg.BACKEND_URL) {
-        API_BASE = cfg.BACKEND_URL.trim()
-      }
-    }
-  } catch {}
+  } catch (err) {
+    console.error('Error loading .env:', err)
+  }
 }
 
 ;(async () => {
