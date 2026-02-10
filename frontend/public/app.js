@@ -16,7 +16,7 @@ const showRegisterBtn = document.getElementById('show-register-btn')
 const showLoginBtn = document.getElementById('show-login-btn')
 const authTitleEl = document.getElementById('auth-title')
 
-const API_BASE = window.BACKEND_URL || 'http://localhost:3000'
+let API_BASE = 'http://localhost:3000'
 let currentUser = null
 let authMode = 'login'
 
@@ -94,7 +94,9 @@ async function loadTodosForCurrentUser() {
   try {
     const todos = await fetchJSON(`${API_BASE}/api/todos`)
     renderTodos(todos)
-  } catch {}
+  } catch (err) {
+    authErrorEl.textContent = 'Cannot reach server'
+  }
 }
 
 formEl.addEventListener('submit', async e => {
@@ -121,7 +123,9 @@ formEl.addEventListener('submit', async e => {
     listEl.insertBefore(li, listEl.firstChild)
     inputEl.value = ''
     inputEl.focus()
-  } catch {}
+  } catch (err) {
+    authErrorEl.textContent = 'Cannot reach server'
+  }
 })
 
 registerFormEl.addEventListener('submit', async e => {
@@ -173,13 +177,29 @@ showLoginBtn.addEventListener('click', () => {
   updateAuthUI()
 })
 
-try {
-  const storedUser = localStorage.getItem('currentUser')
-  if (storedUser) {
-    currentUser = JSON.parse(storedUser)
-  }
-} catch {}
-updateAuthUI()
-if (currentUser) {
-  loadTodosForCurrentUser()
+async function loadEnv() {
+  try {
+    const res = await fetch('../.env', { cache: 'no-store' })
+    if (res.ok) {
+      const txt = await res.text()
+      const m = txt.match(/BACKEND_URL\s*=\s*(.+)/)
+      if (m && m[1]) {
+        API_BASE = m[1].trim()
+      }
+    }
+  } catch {}
 }
+
+;(async () => {
+  await loadEnv()
+  try {
+    const storedUser = localStorage.getItem('currentUser')
+    if (storedUser) {
+      currentUser = JSON.parse(storedUser)
+    }
+  } catch {}
+  updateAuthUI()
+  if (currentUser) {
+    loadTodosForCurrentUser()
+  }
+})()

@@ -69,6 +69,15 @@ const FRONTEND_URL = process.env.FRONTEND_URL
 app.use(cors({ origin: FRONTEND_URL ? FRONTEND_URL : true, credentials: true }))
 app.use(express.json())
 
+app.get('/env.js', (req, res) => {
+  const origin = `${req.protocol}://${req.get('host')}`
+  res.type('application/javascript').send(`window.BACKEND_URL="${origin}";`)
+})
+
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true })
+})
+
 app.post('/api/auth/register', async (req, res) => {
   const emailRaw = req.body && req.body.email
   const password = req.body && req.body.password
