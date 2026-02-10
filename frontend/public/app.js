@@ -179,7 +179,7 @@ showLoginBtn.addEventListener('click', () => {
 
 async function loadEnv() {
   try {
-    const res = await fetch('../.env', { cache: 'no-store' })
+    const res = await fetch('./.env', { cache: 'no-store' })
     if (res.ok) {
       const txt = await res.text()
       const m = txt.match(/BACKEND_URL\s*=\s*(.+)/)
